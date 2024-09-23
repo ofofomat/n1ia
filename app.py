@@ -23,7 +23,7 @@ def main():
     book.Book("Pride and Prejudice", 278, fantasy, jane_austen)
     book.Book("Fantastic Beasts and Where to Find Them", 640, romance, jk_rowling)
     book.Book("Murder on the Orient Express", 107, fiction, agatha_christie)
-    book.Book("Pride and Prejudice", 300, fantasy, jane_austen)
+    book.Book("Pride and Postjudice", 300, fantasy, jane_austen)
     book.Book("The Big Malakoi", 1245, romance, jk_rowling)
     book.Book("Murder on the Ocident Express", 250, fiction, agatha_christie)
     book.Book("1984: 1983, a prequeal", 1001, fantasy, george_orwell)
