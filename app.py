@@ -53,6 +53,26 @@ def main():
     new_reader = reader.Reader(name, preferred_genre, preferred_author, preferred_length)
 
     # Recommend books
+    book_recomender.BookRecommender.recommend_books(preferred_author, preferred_genre, preferred_length, book.Book.all_books, new_reader.name)
+
+    # Feedback time
+    print("How would you rate these recommendations?")
+    print("1 - Boombastic")
+    print("2 - Pretty good actually")
+    print("3 - I've seen better")
+    print("4 - Missed quite remarkably")
+    print("5 - Thou hast sorely missed the mark in thy counsel, and my patience doth wane as the error deepens.")
+    
+    # Get feedback
+    print()
+    feedback = int(input("Please be honest - unless you're about to type 5, then you should reconsider: "))
+
+    if feedback not in [5,4,3]:
+        print()
+        print(f'Well, I\'m happy to be of help for you, {new_reader.name}!')
+    else:
+        print()
+        print("A wise man once said that everyone has the right to be wrong. You're lucky we all still believe in that!")
     book_recomender.BookRecommender.recommend_books(books, new_reader)
 
 
