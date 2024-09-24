@@ -47,7 +47,7 @@ class Reader:
                 likeliness += 1
             self.feedback.append((book, likeliness))
         print()
-        print(f'{self.name}: I\'d rate this books from 0 to 3 stars:')
+        print(f'{self.name}: I\'d rate these books as (from 0 to 3 stars):')
         for book, likeliness in self.feedback:
             print(f"{book.title} - {likeliness} star(s)")
         return self.feedback
