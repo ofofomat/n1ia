@@ -1,86 +1,54 @@
 class BookRecommender:
     """
-    BookRecommender class provides methods to determine user preferences based on book correlations and recommend books accordingly.
+    BookRecommender class provides methods to recommend books to a reader based on their preferences and enhance the recommendations based on feedback.
     Methods:
-        get_preferences(cls, correlations):
-            Analyzes the given correlations to determine the preferred author, genre, and length of books.
+        recommend_books(cls, books, reader):
+            Recommends books to the reader based on their preferred author, genre, or length.
             Parameters:
-                correlations (list of tuples): A list where each tuple contains a book object and a likeliness score.
-            Returns:
-                tuple: A tuple containing the preferred author, genre, and length.
-        recommend_books(cls, author, genre, length, books, name):
-            Recommends books based on the user's preferred author, genre, and length.
+                books (list): List of book objects to consider for recommendation.
+                reader (object): Reader object containing preferences and feedback methods.
+        enhance_recommendation(cls, feedback, name):
+            Enhances the book recommendations based on the reader's feedback.
             Parameters:
-                author (str): The preferred author.
-                genre (str): The preferred genre.
-                length (str): The preferred length.
-                books (list): A list of book objects to recommend from.
-                name (str): The name of the user for personalized messages.
-            Returns:
-                None: Prints the recommended books categorized into 'love' and 'like'.
+                feedback (list): List of tuples containing book objects and their likeliness score (1 to 3).
+                name (str): Name of the reader to personalize the recommendation messages.
     """
+
+    @classmethod
+    def recommend_books(cls, books, reader):
+        books_to_recommend = []
+        for book in books:
+            if book.author == reader.preferred_author or book.genre == reader.preferred_genre or book.length() == reader.preferred_length:
+               books_to_recommend.append(book)
+        cls.enhance_recommendation(reader.give_feedback(books_to_recommend), reader.name)
     
     @classmethod
-    def get_preferences(cls, correlations):
-        author_count = {}
-        genre_count = {}
-        length_count = {}
-        
-        for book, likeliness in correlations:
-            if book.author in author_count:
-                author_count[book.author] += likeliness
-            else:
-                author_count[book.author] = likeliness
-
-            if book.genre in genre_count:
-                genre_count[book.genre] += likeliness
-            else:
-                genre_count[book.genre] = likeliness
-
-            if book.length() in length_count:
-                length_count[book.length()] += likeliness
-            else:
-                length_count[book.length()] = likeliness
-
-        preferred_author = max(author_count, key=author_count.get)
-        preferred_genre = max(genre_count, key=genre_count.get)
-        preferred_length = max(length_count, key=length_count.get)
-
-        return preferred_author, preferred_genre, preferred_length
-
-    @classmethod
-    def recommend_books(cls, author, genre, length, books, name):
+    def enhance_recommendation(cls, feedback, name):
         love = []
         like = []
-        print(f'Your preferred author seems to be {author}')
-        print(f'Your preferred genre seems to be {genre}')
-        print(f'And your preferred length seems to be {length}')
+        trying = []
         print()
-        for book in books:
-            match_count = 0
-            if book.author == author:
-                match_count += 1
-            if book.genre == genre:
-                match_count += 1
-            if book.length() == length:
-                match_count += 1
-
-            if match_count == 3:
+        print("Enhancing recommendation based on your feedback...")
+        print()
+        for book, likeliness in feedback:
+            if likeliness == 3:
                 love.append(book)
-            elif match_count == 2:
+            elif likeliness == 2:
                 like.append(book)
-
-        if not love and not like:
-            print(f'Oops, your taste for books is too unique {name}. We couldn\'t find any books that match your preferences')
-            print()
-        else:
-            if love:
-                print(f'Books you\'ll love {name}')
-                for book in love:
-                    print(book)
-                print()
-            if like:
-                print(f'Books you might like {name}')
-                for book in like:
-                    print(book)
-                print()
+            elif likeliness == 1:
+                trying.append(book)
+        if love:
+            print(f'You will LOVE these books {name}:')
+            for book in love:
+                print(book)
+        print()
+        if like:
+            print(f'You could like these books {name}:')
+            for book in like:
+                print(book)
+        print()
+        if trying:
+            print(f'You might want to give these books a try {name}: ')
+            for book in trying:
+                print(book)
+        print()
